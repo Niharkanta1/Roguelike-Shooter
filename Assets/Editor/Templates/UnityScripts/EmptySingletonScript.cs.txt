@@ -1,0 +1,21 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+/*=============================================
+Product:    #PROJECT#
+Developer:  #USER#
+Company:    #COMPANY#
+Date:       #DATE#
+================================================*/
+public class #SCRIPTNAME# : MonoBehaviour {
+	public static #SCRIPTNAME# Instance;
+	
+	void Awake() {
+		if(Instance == null) {
+			Instance = this;
+		} else if(Instance != this) {
+			Destroy(gameObject);
+		}
+	}
+}
