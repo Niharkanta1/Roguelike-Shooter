@@ -9,23 +9,27 @@ Developer:  nihar
 Company:    DeadW0Lf Games
 Date:       09-03-2023 23:51:14
 ================================================*/ 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IHittable
 {
     public static PlayerController instance;
-
+    [Header("Player Stats")]
+    [SerializeField] private int maxHealth = 200;
     [SerializeField] private float moveSpeed = 5.0f;
     [SerializeField] private float timeBetweenShots = 0.2f;
 
+    [Header("Prefabs")]
     [SerializeField] private Transform gunArm;
     [SerializeField] private Transform gunMuzzle;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject hitEffect;
 
     private Rigidbody2D _rb;
     private Camera _cameraMain;
     private Animator _animator;
     private Vector2 _moveInput;
 
-    private float _fireRateTimer;
+    private float _fireRateTimer; 
+    private int health = 0;
 
     private void Awake()
     {
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
         _cameraMain = Camera.main;
         _animator = GetComponent<Animator>();
         _animator.Play("Player_Idle");
+        health = maxHealth;
     }
 
     private void Update()
@@ -85,5 +90,27 @@ public class PlayerController : MonoBehaviour
     {
         Instantiate(bulletPrefab, gunMuzzle.position, gunMuzzle.rotation);
         _fireRateTimer = timeBetweenShots;
+    }
+
+    public void SetHealth(int heal)
+    {
+        health += heal;
+        health = Math.Min(maxHealth, health);
+    }
+
+    public void Hit(int damage)
+    {
+        health -= damage;
+        Instantiate(hitEffect, transform.position, transform.rotation);
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Debug.Log("Player Died");
+        gameObject.SetActive(false);
     }
 }

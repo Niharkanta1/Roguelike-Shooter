@@ -6,17 +6,17 @@ using UnityEngine;
 Product:    Roguelike-Shooter v1.0
 Developer:  nihar
 Company:    DeadW0Lf Games
-Date:       10-03-2023 13:42:18
+Date:       11-03-2023 13:13:44
 ================================================*/
-public class PlayerBullet : Bullet
+public class EnemyBullet : Bullet
 {
     protected override void BulletImpact(Collider2D other)
     {
         Instantiate(impactEffect, impactPoint.position, impactPoint.rotation);
         Destroy(gameObject);
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Player"))
         {
-            other.GetComponentInParent<EnemyController>().Hit(bulletDamage);
+            other.GetComponentInParent<PlayerController>().Hit(bulletDamage);
         }
     }
 }

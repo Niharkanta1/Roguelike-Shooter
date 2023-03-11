@@ -12,15 +12,15 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
+  - Enemy
+  - PlayerHitBox
+  - EnemyHitBox
+  - World
+  - Obstacles
+  - PlayerBullet
+  - EnemyBullet
+  - Particles
   - 
   - 
   - 
@@ -41,6 +41,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: BloodParticle
+    uniqueID: 620027321
+    locked: 0
+  - name: Enemy
+    uniqueID: 1103818527
     locked: 0
   - name: Player
     uniqueID: 3008942295
