@@ -1,7 +1,28 @@
 fileFormatVersion: 2
 guid: bf3b18a61b31bed48ba0e38a9b6925de
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 4098156409588004937
+    second: Breakable_0
+  - first:
+      213: -5688956413077253491
+    second: Breakable_1
+  - first:
+      213: 4053375744630672729
+    second: Breakable_2
+  - first:
+      213: -4990361253961035843
+    second: Breakable_3
+  - first:
+      213: 2834888629653501596
+    second: Breakable_4
+  - first:
+      213: -2796105001415810770
+    second: Breakable_5
+  - first:
+      213: 546535986855887430
+    second: Breakable_6
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -113,7 +134,154 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Breakable_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 48
+        width: 13
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 948bb73aa839fd830800000000000000
+      internalID: 4098156409588004937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breakable_1
+      rect:
+        serializedVersion: 2
+        x: 18
+        y: 59
+        width: 6
+        height: 5
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8299df9844cc01b0800000000000000
+      internalID: -5688956413077253491
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breakable_2
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 57
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95d45e793cb704830800000000000000
+      internalID: 4053375744630672729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breakable_3
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 55
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbf87cc21ecaebab0800000000000000
+      internalID: -4990361253961035843
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breakable_4
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 49
+        width: 7
+        height: 10
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c967a44503c875720800000000000000
+      internalID: 2834888629653501596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breakable_5
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 48
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e21eaebc05d3239d0800000000000000
+      internalID: -2796105001415810770
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Breakable_6
+      rect:
+        serializedVersion: 2
+        x: 50
+        y: 48
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6424389959fa59700800000000000000
+      internalID: 546535986855887430
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

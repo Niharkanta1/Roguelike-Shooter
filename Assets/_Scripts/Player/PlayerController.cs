@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using Quaternion = UnityEngine.Quaternion;
+using Vector2 = UnityEngine.Vector2;
+using Vector3 = UnityEngine.Vector3;
 
 /*=============================================
 Product:    Roguelike-Shooter v1.0
@@ -34,13 +38,31 @@ public class PlayerController : MonoBehaviour, IHittable
     private Vector2 _moveInput;
     private SpriteRenderer[] _spriteRenderers;
 
+    private float _moveDirection;
     private float _fireRateTimer;
     private float _iFrameTimer;
     private bool _canBeHit;
     private int _health;
+    private bool _isDashing;
     private float _dashTimer, _dashCooldownTimer;
     private float _activeMoveSpeed;
+    private State _currentState;
     
+    private static readonly int IsMovingHash = Animator.StringToHash("isMoving");
+    private static readonly int IsDashingHash = Animator.StringToHash("isDashing");
+    
+    private enum State { Idle, Move, Dash, Death }
+    
+    private State CurrentState
+    {
+        get => _currentState;
+        set
+        {
+            InitState(value);
+            _currentState = value;
+        }
+    }
+
     private void Awake()
     {
         instance = this;
@@ -60,35 +82,46 @@ public class PlayerController : MonoBehaviour, IHittable
 
     private void Update()
     {
-        _moveInput.x = Input.GetAxisRaw("Horizontal");
-        _moveInput.y = Input.GetAxisRaw("Vertical");
-
-        var mousePos = Input.mousePosition;
-        var screenPoint = _cameraMain.WorldToScreenPoint(transform.position);
-        
-        // Update Player Direction
-        if(mousePos.x < screenPoint.x)
+        GetPlayerInput();
+        UpdatePlayerDirection();
+        switch (_currentState)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
-            gunArm.localScale = new Vector3(-1, -1, 1);
-        } else if(mousePos.x > screenPoint.x)
-        {
-            transform.localScale = Vector3.one;
-            gunArm.localScale = Vector3.one;
-        }
- 
-        // Rotating Gun Arm towards mouse point
-        var offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
-        var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
-        gunArm.transform.rotation = Quaternion.Euler(0, 0, angle); 
-
-        // Update Animation params
-        if(_moveInput != Vector2.zero)
-        {
-            _animator.SetBool("isMoving", true);
-        } else
-        {
-            _animator.SetBool("isMoving", false);
+            case State.Idle:
+                if (_moveInput != Vector2.zero)
+                    CurrentState = State.Move;
+                if (_isDashing)
+                    CurrentState = State.Dash;
+                break;
+            
+            case State.Move:
+                _rb.velocity = _moveInput.normalized * _activeMoveSpeed;
+                if (_moveInput == Vector2.zero)
+                    CurrentState = State.Idle;
+                else if (_isDashing)
+                    CurrentState = State.Dash;
+                break;
+            
+            case State.Dash:
+                _rb.velocity = _moveInput.normalized * _activeMoveSpeed;
+                if (_dashTimer > 0)
+                {
+                    _dashTimer -= Time.deltaTime;
+                }
+                if (_dashTimer <= 0)
+                {
+                    _isDashing = false;
+                    _rb.velocity = Vector2.zero;
+                    _activeMoveSpeed = moveSpeed;
+                    _dashCooldownTimer = dashCoolDownTime;
+                    ClearInvincibility();
+                    CurrentState = State.Idle;
+                }
+                break;
+            
+            case State.Death:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
 
         // Shoot Input
@@ -100,29 +133,10 @@ public class PlayerController : MonoBehaviour, IHittable
                 ShootBullet();                
         }
         
-        // Dash Movement
         if (_dashCooldownTimer > 0)
         {
             _dashCooldownTimer -= Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && _dashCooldownTimer <= 0 && _dashTimer <= 0)
-        {
-            _activeMoveSpeed = dashSpeed;
-            SetInvincibility(dashLengthTime);
-            _dashTimer = dashLengthTime;
-        }
-        if (_dashTimer > 0)
-        {
-            _dashTimer -= Time.deltaTime;
-            if (_dashTimer <= 0)
-            {
-                _activeMoveSpeed = moveSpeed;
-                _dashCooldownTimer = dashCoolDownTime;
-                ClearInvincibility();
-            }
-        }
-        
-        _rb.velocity = _moveInput.normalized * _activeMoveSpeed;
         // I-Frame
         if(!_canBeHit)
         {
@@ -130,6 +144,69 @@ public class PlayerController : MonoBehaviour, IHittable
             if (_iFrameTimer <= 0)
                 ClearInvincibility();
         }
+    }
+    
+    private void InitState(State value)
+    {
+        switch (value)
+        {
+            case State.Idle:
+                _animator.SetBool(IsMovingHash, false);
+                _activeMoveSpeed = 0;
+                break;
+            case State.Move:
+                _animator.SetBool(IsMovingHash, true);
+                _activeMoveSpeed = moveSpeed;
+                break;
+            case State.Dash:
+                _animator.SetTrigger(IsDashingHash);
+                if (_moveInput == Vector2.zero)
+                {
+                    _moveInput = new Vector2(_moveDirection, 0);
+                }
+                _dashTimer = dashLengthTime;
+                _activeMoveSpeed = dashSpeed;
+                SetInvincibility(dashLengthTime);
+                break;
+            case State.Death:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(value), value, null);
+        }
+    }
+
+    private void GetPlayerInput()
+    {
+        if (_isDashing) return;
+        _moveInput.x = Input.GetAxisRaw("Horizontal");
+        _moveInput.y = Input.GetAxisRaw("Vertical");
+        
+        if (Input.GetKeyDown(KeyCode.Space) && _dashCooldownTimer <= 0 && _dashTimer <= 0)
+        {
+            _isDashing = true;
+        }
+    }
+
+    private void UpdatePlayerDirection()
+    {
+        var mousePos = Input.mousePosition;
+        var screenPoint = _cameraMain.WorldToScreenPoint(transform.position);
+        if(mousePos.x < screenPoint.x)
+        {
+            _moveDirection = -1;
+            transform.localScale = new Vector3(-1, 1, 1);
+            gunArm.localScale = new Vector3(-1, -1, 1);
+        } else if(mousePos.x > screenPoint.x)
+        {
+            _moveDirection = 1;
+            transform.localScale = Vector3.one;
+            gunArm.localScale = Vector3.one;
+        }
+       
+        // Update Gun Arm
+        var offset = new Vector2(mousePos.x - screenPoint.x, mousePos.y - screenPoint.y);
+        var angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
+        gunArm.transform.rotation = Quaternion.Euler(0, 0, angle); 
     }
 
     private void ShootBullet()
@@ -182,4 +259,6 @@ public class PlayerController : MonoBehaviour, IHittable
         Debug.Log("Player Died");
         gameObject.SetActive(false);
     }
+
+    public bool IsDashing() => _isDashing;
 }
