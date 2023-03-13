@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour, IHittable
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private float enemyMaxRange = 6f;
     [SerializeField] private float enemyMinRange = 0.5f;
-    [SerializeField] private bool shouldShoot = false;
+    [SerializeField] private bool shouldShoot = true;
     [SerializeField] private float shootingRange = 8.5f;
     [SerializeField] private float fireRate = 1f;
 
@@ -30,8 +30,8 @@ public class EnemyController : MonoBehaviour, IHittable
     private Animator _animator;
 
     private Vector3 _moveDirection;
-    private float fireRateCounter;
-    private bool isShooting = false;
+    private float _fireRateCounter;
+    private bool _isShooting;
 
     private void Awake()
     {
@@ -41,13 +41,23 @@ public class EnemyController : MonoBehaviour, IHittable
 
     private void Update()
     {
+        if(!PlayerController.instance.gameObject.activeInHierarchy)
+        {
+            _rb.velocity = Vector2.zero;
+            _animator.SetBool("isMoving", false);
+            _isShooting = false;
+            return;
+        }
+        
         var distance = Vector3.Distance(transform.position, PlayerController.instance.transform.position);
         _moveDirection = PlayerController.instance.transform.position - transform.position;
-        isShooting = distance <= shootingRange;
+        _isShooting = distance <= shootingRange;
+        
         if ( distance <= enemyMaxRange && distance > enemyMinRange)
         {
             _rb.velocity = _moveDirection.normalized * moveSpeed;
-        } else
+        }
+        else
         {
             _rb.velocity = Vector2.zero;
         }
@@ -77,12 +87,12 @@ public class EnemyController : MonoBehaviour, IHittable
         }
 
         // Shooting
-        if(shouldShoot && isShooting)
+        if(shouldShoot && _isShooting)
         {
-            fireRateCounter -= Time.deltaTime;
-            if(fireRateCounter <= 0)
+            _fireRateCounter -= Time.deltaTime;
+            if(_fireRateCounter <= 0)
             {
-                fireRateCounter = fireRate;
+                _fireRateCounter = fireRate;
                 Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
             }
         }
