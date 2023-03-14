@@ -14,6 +14,7 @@ public class UIController : MonoBehaviour
     public static UIController instance;
     [SerializeField] private Slider healthSlider;
     [SerializeField] private Text healthText;
+    [SerializeField] private GameObject deathScreen;
 
     private void Awake()
     {
@@ -31,5 +32,10 @@ public class UIController : MonoBehaviour
     {
         healthSlider.value = healthValue;
         healthText.text = healthValue + "/" + healthSlider.maxValue;
+    }
+
+    public void PlayerDied()
+    {
+        deathScreen.SetActive(true);
     }
 }

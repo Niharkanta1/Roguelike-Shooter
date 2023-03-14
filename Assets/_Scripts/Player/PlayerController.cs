@@ -215,10 +215,11 @@ public class PlayerController : MonoBehaviour, IHittable
         _fireRateTimer = timeBetweenShots;
     }
 
-    public void SetHealth(int heal)
+    public void AddHealth(int heal)
     {
         _health += heal;
         _health = Math.Min(maxHealth, _health);
+        UIController.instance.SetCurrentHealth(_health);
     }
 
     public void Hit(int damage)
@@ -238,11 +239,10 @@ public class PlayerController : MonoBehaviour, IHittable
     {
         _canBeHit = false;
         _iFrameTimer = iFrameTime;
-        foreach(var sprite in _spriteRenderers)
+        foreach (var sprite in _spriteRenderers)
         {
             sprite.color = new Color(1, 1, 1, 0.7f);
-        }
-            
+        } 
     }
 
     private void ClearInvincibility()
@@ -258,6 +258,7 @@ public class PlayerController : MonoBehaviour, IHittable
     {
         Debug.Log("Player Died");
         gameObject.SetActive(false);
+        UIController.instance.PlayerDied();
     }
 
     public bool IsDashing() => _isDashing;

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8133217299683638093}
   - component: {fileID: 8133217299683638095}
   - component: {fileID: 8133217299683638080}
+  - component: {fileID: 1512366116600063157}
   m_Layer: 15
   m_Name: Box
   m_TagString: Untagged
@@ -71,8 +72,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1477480527
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 4098156409588004937, guid: bf3b18a61b31bed48ba0e38a9b6925de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -98,7 +99,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.016217649, y: -0.0032435358}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -109,7 +110,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8125, y: 1}
+  m_Size: {x: 0.9617026, y: 1.1492026}
   m_EdgeRadius: 0
 --- !u!114 &8133217299683638080
 MonoBehaviour:
@@ -123,6 +124,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ece293be3739e4c8f627aa2c3a14c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shouldDropItems: 1
+  itemsToDrop:
+  - {fileID: 5569854954083188292, guid: 34cb03559c11de24e9213e4102e2b7ab, type: 3}
+  - {fileID: 6305975699191153327, guid: 7ab7a62dbd5579a468a4aa93eed4b0d0, type: 3}
+  itemDropChancePercent: 30
   brokenPieces:
   - {fileID: 8619340812760032693, guid: 5c056d59e56ac7f4ea0d4a435a1f462d, type: 3}
   - {fileID: 5949423007041360384, guid: a9efe285a5d1bfd47998189b289b58a8, type: 3}
@@ -131,3 +137,15 @@ MonoBehaviour:
   - {fileID: 8505438235220097111, guid: d0510fbb4b699244aabdfb2c4e5ab3b1, type: 3}
   - {fileID: 5862812187348624853, guid: 5e5cbc29be962d845859c6f47de5d8a4, type: 3}
   maxPieces: 5
+--- !u!114 &1512366116600063157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8133217299683638092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd42cc93d0aa8e44a9c133edc83d97f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
