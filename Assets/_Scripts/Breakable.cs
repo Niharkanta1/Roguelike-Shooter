@@ -10,9 +10,9 @@ Developer:  nihar
 Company:    DeadW0Lf Games
 Date:       13-03-2023 22:23:43
 ================================================*/ 
-public class Breakable : MonoBehaviour
+public class Breakable : MonoBehaviour, IHittable
 {
-
+    [SerializeField] private int hitPoints = 60;
     [SerializeField] private bool shouldDropItems = true;
     [SerializeField] private GameObject[] itemsToDrop;
     [SerializeField] private float itemDropChancePercent = 30;
@@ -25,27 +25,40 @@ public class Breakable : MonoBehaviour
         {
             if(!PlayerController.instance.IsDashing())
                 return;
-            
-            // Spawn Broken Pieces
-            Destroy(gameObject);
-            var piecesToDrop = Random.Range(1, maxPieces);
-            for (var i = 0; i < piecesToDrop; i++)
-            {
-                var randomPiece = Random.Range(0, brokenPieces.Length);
-                Instantiate(brokenPieces[randomPiece], transform.position, transform.rotation);
-            }
-            
-            // Spawn Itmes
-            if (!shouldDropItems) return;
-            float chance = Random.Range(0, 100);
-            if (chance <= itemDropChancePercent)
-                SpawnItem();
+
+            Break();
         }
     }
     
+    private void Break()
+    {
+        AudioManager.instance.PlaySound(0);
+        // Spawn Broken Pieces
+        Destroy(gameObject);
+        var piecesToDrop = Random.Range(1, maxPieces);
+        for (var i = 0; i < piecesToDrop; i++)
+        {
+            var randomPiece = Random.Range(0, brokenPieces.Length);
+            Instantiate(brokenPieces[randomPiece], transform.position, transform.rotation);
+        }
+            
+        // Spawn Itmes
+        if (!shouldDropItems) return;
+        float chance = Random.Range(0, 100);
+        if (chance <= itemDropChancePercent)
+            SpawnItem();
+    }
+
     private void SpawnItem()
     {
         var randomPiece = Random.Range(0, itemsToDrop.Length);
         Instantiate(itemsToDrop[randomPiece], transform.position, transform.rotation);
+    }
+    
+    public void Hit(int damage)
+    {
+        hitPoints -= damage;
+        if(hitPoints <= 0)
+            Break();
     }
 }

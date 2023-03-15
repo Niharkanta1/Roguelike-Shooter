@@ -25,7 +25,9 @@ public class HealthPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (spawnTime > 0) return;
-            PlayerController.instance.AddHealth(healAmount);
+            var isPickedUp = PlayerController.instance.AddHealth(healAmount);
+            if (!isPickedUp) return;
+            AudioManager.instance.PlaySound(7);
             Destroy(gameObject);
         }
     }

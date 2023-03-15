@@ -167,6 +167,7 @@ public class PlayerController : MonoBehaviour, IHittable
                 _dashTimer = dashLengthTime;
                 _activeMoveSpeed = dashSpeed;
                 SetInvincibility(dashLengthTime);
+                AudioManager.instance.PlaySound(8);
                 break;
             case State.Death:
                 break;
@@ -213,18 +214,22 @@ public class PlayerController : MonoBehaviour, IHittable
     {
         Instantiate(bulletPrefab, gunMuzzle.position, gunMuzzle.rotation);
         _fireRateTimer = timeBetweenShots;
+        AudioManager.instance.PlaySound(15);
     }
 
-    public void AddHealth(int heal)
+    public bool AddHealth(int heal)
     {
+        if (_health == maxHealth) return false;
         _health += heal;
         _health = Math.Min(maxHealth, _health);
         UIController.instance.SetCurrentHealth(_health);
+        return true;
     }
 
     public void Hit(int damage)
     {
         if (!_canBeHit) return;
+        AudioManager.instance.PlaySound(11);
         SetInvincibility(invincibleTime);
         _health -= damage;
         UIController.instance.SetCurrentHealth(_health);
@@ -257,8 +262,10 @@ public class PlayerController : MonoBehaviour, IHittable
     private void Die()
     {
         Debug.Log("Player Died");
+        AudioManager.instance.PlaySound(9);
         gameObject.SetActive(false);
         UIController.instance.PlayerDied();
+        AudioManager.instance.PlayGameOver();
     }
 
     public bool IsDashing() => _isDashing;

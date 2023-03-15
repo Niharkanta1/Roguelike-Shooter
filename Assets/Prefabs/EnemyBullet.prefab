@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7254039389706039374}
   - component: {fileID: 7254039389706039375}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: BulletSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7254039390094544352}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: ImpactPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,9 +124,9 @@ GameObject:
   - component: {fileID: 7254039390838170491}
   - component: {fileID: 7254039390838170490}
   - component: {fileID: 7254039390838170492}
-  m_Layer: 13
+  m_Layer: 16
   m_Name: EnemyBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

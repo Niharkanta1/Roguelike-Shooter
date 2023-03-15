@@ -13,7 +13,9 @@ public class EnemyBullet : Bullet
     protected override void BulletImpact(Collider2D other)
     {
         Instantiate(impactEffect, impactPoint.position, impactPoint.rotation);
+        AudioManager.instance.PlaySound(3);
         Destroy(gameObject);
+        Debug.Log(other.tag);
         if (other.CompareTag("Player"))
         {
             other.GetComponentInParent<PlayerController>().Hit(bulletDamage);

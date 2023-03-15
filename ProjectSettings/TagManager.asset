@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Obstacles
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -19,11 +20,11 @@ TagManager:
   - EnemyHitBox
   - World
   - Obstacles
-  - PlayerBullet
-  - EnemyBullet
+  - Bullet
+  - Pickups
   - Particles
-  - Objects
-  - 
+  - ObstaclesGround
+  - EnemyBullet
   - 
   - 
   - 

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 8133217299683638095}
   - component: {fileID: 8133217299683638080}
   - component: {fileID: 1512366116600063157}
-  m_Layer: 15
+  m_Layer: 11
   m_Name: Box
-  m_TagString: Untagged
+  m_TagString: Obstacles
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1ece293be3739e4c8f627aa2c3a14c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitPoints: 60
   shouldDropItems: 1
   itemsToDrop:
   - {fileID: 5569854954083188292, guid: 34cb03559c11de24e9213e4102e2b7ab, type: 3}

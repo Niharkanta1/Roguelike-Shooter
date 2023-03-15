@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour, IHittable
     [SerializeField] private bool shouldShoot = true;
     [SerializeField] private float shootingRange = 8.5f;
     [SerializeField] private float fireRate = 1f;
+    [SerializeField] private float initialIdleTime = 2.0f;
 
     [SerializeField] private GameObject bullet;
     [SerializeField] private Transform firePoint;
@@ -78,7 +79,7 @@ public class EnemyController : MonoBehaviour, IHittable
         gunArm.transform.rotation = Quaternion.Euler(0, 0, angle);
 
         // Update Animation params
-        if (_moveDirection != Vector3.zero)
+        if (_rb.velocity != Vector2.zero)
         {
             _animator.SetBool("isMoving", true);
         } else
@@ -87,12 +88,14 @@ public class EnemyController : MonoBehaviour, IHittable
         }
 
         // Shooting
-        if(shouldShoot && _isShooting)
+        if (initialIdleTime > 0) initialIdleTime -= Time.deltaTime;
+        if(shouldShoot && _isShooting && initialIdleTime <= 0)
         {
             _fireRateCounter -= Time.deltaTime;
             if(_fireRateCounter <= 0)
             {
                 _fireRateCounter = fireRate;
+                AudioManager.instance.PlaySound(11);
                 Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
             }
         }
@@ -102,6 +105,7 @@ public class EnemyController : MonoBehaviour, IHittable
     {
         health -= damage;
         Instantiate(hitEffect, transform.position, transform.rotation);
+        AudioManager.instance.PlaySound(2);
         if(health <= 0)
         {
             Die();
@@ -111,6 +115,7 @@ public class EnemyController : MonoBehaviour, IHittable
     private void Die()
     {
         Instantiate(deathSplatter, transform.position, transform.rotation);
+        AudioManager.instance.PlaySound(1);
         Destroy(gameObject);
     }
 }
