@@ -15,7 +15,6 @@ public class PlayerBullet : Bullet
         Instantiate(impactEffect, impactPoint.position, impactPoint.rotation);
         AudioManager.instance.PlaySound(4);
         Destroy(gameObject);
-        Debug.Log(other.tag);
         if (other.CompareTag("Enemy"))
         {
             other.GetComponentInParent<EnemyController>().Hit(bulletDamage);
