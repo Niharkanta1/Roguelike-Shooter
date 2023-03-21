@@ -52,6 +52,10 @@ public class RoomActivator : MonoBehaviour
             {
                 door.SetActive(true);
             }
+            foreach (var enemy in enemies)
+            {
+                enemy.SetActive(true);
+            }
             roomActive = true;
         }
     }
